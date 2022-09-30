@@ -13,9 +13,29 @@ export default class Rook extends Piece {
         let currentPosition = board.findPiece(this);
         let oldRow = currentPosition.row;
         let oldCol = currentPosition.col;
-        for (let index = 0; index < 8; index++) {
-            this.addAvailableMove(availableMoves, oldRow, index, currentPosition);
-            this.addAvailableMove(availableMoves, index, oldCol, currentPosition);
+        for (let newRow = oldRow-1; newRow >= 0; newRow--) {
+            this.addAvailableMove(availableMoves, newRow, oldCol, currentPosition);
+            if(board.getPiece(new Square(newRow, oldCol))) {
+                break;
+            }
+        }
+        for (let newRow = oldRow+1; newRow < 8; newRow++) {
+            this.addAvailableMove(availableMoves, newRow, oldCol, currentPosition);
+            if(board.getPiece(new Square(newRow, oldCol))) {
+                break;
+            }
+        }
+        for (let newCol = oldCol-1; newCol >= 0; newCol--) {
+            this.addAvailableMove(availableMoves, oldRow, newCol, currentPosition);
+            if(board.getPiece(new Square(oldRow, newCol))) {
+                break;
+            }
+        }
+        for (let newCol = oldCol+1; newCol < 8; newCol++) {
+            this.addAvailableMove(availableMoves, oldRow, newCol, currentPosition);
+            if(board.getPiece(new Square(oldRow, newCol))) {
+                break;
+            }
         }
         
         return availableMoves;
