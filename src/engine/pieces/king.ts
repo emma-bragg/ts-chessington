@@ -21,7 +21,6 @@ export default class King extends Piece {
             [1,0]
         ];
         const moveList = getMovesFromVectors(currentPosition, diffMovelist);
-
         return moveList; 
     }
 }

@@ -40,6 +40,16 @@ export default class Board {
         }
     }
 
+    public isPieceAtSquare(square: Square) {
+        let pieceAtSquare : Piece | undefined;
+        pieceAtSquare = this.getPiece(square);
+        if (pieceAtSquare === undefined) {
+            return false;
+        } 
+        return true;
+    }
+
+
     private createBoard() {
         const board = new Array(GameSettings.BOARD_SIZE);
         for (let i = 0; i < board.length; i++) {

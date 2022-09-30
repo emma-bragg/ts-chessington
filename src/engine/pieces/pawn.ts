@@ -11,16 +11,17 @@ export default class Pawn extends Piece {
     public getAvailableMoves(board: Board) {
         const currentPosition = board.findPiece(this);
         let moveList = [];
+        
         if (this.player === Player.WHITE){
             const candidateMove1 = Square.at(currentPosition.row+1, currentPosition.col);
-            if (this.isMoveValid(board, candidateMove1)){
+            if (!board.isPieceAtSquare(candidateMove1)){
 
                 moveList.push(Square.at(currentPosition.row+1, currentPosition.col));
                 
                 if (currentPosition.row === 1) {
                     const candidateMove2 = Square.at(currentPosition.row+2, currentPosition.col);
 
-                    if (this.isMoveValid(board, candidateMove2)){
+                    if (!board.isPieceAtSquare(candidateMove2)){
                         moveList.push(Square.at(currentPosition.row+2, currentPosition.col));
                         
                     }
@@ -29,14 +30,14 @@ export default class Pawn extends Piece {
             
         } else{
             const candidateMove3 = Square.at(currentPosition.row-1, currentPosition.col);
-            if (this.isMoveValid(board, candidateMove3)){
+            if (!board.isPieceAtSquare(candidateMove3)){
 
                 moveList.push(Square.at(currentPosition.row-1, currentPosition.col));
                 
                 if (currentPosition.row === 6) {
                     const candidateMove4 = Square.at(currentPosition.row-2, currentPosition.col);
 
-                    if (this.isMoveValid(board, candidateMove4)){
+                    if (!board.isPieceAtSquare(candidateMove4)){
                         moveList.push(Square.at(currentPosition.row-2, currentPosition.col));
                         
                     }
@@ -45,16 +46,4 @@ export default class Pawn extends Piece {
         }
         return moveList;
     }
-
-    private isMoveValid(board: Board, newMove: Square){
-        let pieceAtMove : Piece | undefined;
-        pieceAtMove = board.getPiece(newMove);
-        if (pieceAtMove === undefined){
-            return true;
-        } 
-        return false;
-
-    }
-
-
 }

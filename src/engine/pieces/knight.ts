@@ -22,7 +22,6 @@ export default class Knight extends Piece {
             [-1,-2]
         ];
         const moveList = getMovesFromVectors(currentPosition, diffMovelist);
-
         return moveList; 
     }
 
