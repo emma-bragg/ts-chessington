@@ -16,10 +16,10 @@ export default class Rook extends Piece {
                 availableMoves.push(new Square(currentPosition.row, index));
             }
             if (index != currentPosition.row){
-                availableMoves.push(new Square(index, currentPosition.col))
+                availableMoves.push(new Square(index, currentPosition.col));
             }
         }
         
-        return availableMoves
+        return availableMoves;
     }
 }
