@@ -13,18 +13,36 @@ export default class Queen extends Piece {
         let currentPosition = board.findPiece(this);
         let oldRow = currentPosition.row;
         let oldCol = currentPosition.col;
-        for (let newRow = 0; newRow < Piece.boardSize; newRow++) {
-            for (let newCol = 0; newCol < Piece.boardSize; newCol++) {
-                if (newRow-newCol == oldRow-oldCol || newRow+newCol == oldRow+oldCol) {   
-                    this.addAvailableMove(availableMoves, newRow, newCol, currentPosition);
-                }
+
+        for (let newRow = oldRow-1; newRow >= 0; newRow--) {
+            this.addAvailableMove(availableMoves, newRow, oldCol, currentPosition);
+            if(board.getPiece(new Square(newRow, oldCol))) {
+                break;
+            }
+        }
+        for (let newRow = oldRow+1; newRow < Piece.boardSize; newRow++) {
+            this.addAvailableMove(availableMoves, newRow, oldCol, currentPosition);
+            if(board.getPiece(new Square(newRow, oldCol))) {
+                break;
+            }
+        }
+        for (let newCol = oldCol-1; newCol >= 0; newCol--) {
+            this.addAvailableMove(availableMoves, oldRow, newCol, currentPosition);
+            if(board.getPiece(new Square(oldRow, newCol))) {
+                break;
+            }
+        }
+        for (let newCol = oldCol+1; newCol < Piece.boardSize; newCol++) {
+            this.addAvailableMove(availableMoves, oldRow, newCol, currentPosition);
+            if(board.getPiece(new Square(oldRow, newCol))) {
+                break;
             }
         }
 
-        for (let index = 0; index < Piece.boardSize; index++) {
-            this.addAvailableMove(availableMoves, oldRow, index, currentPosition);
-            this.addAvailableMove(availableMoves, index, oldCol, currentPosition);
-        }
+        this.quadrantCheck(-1,-1,availableMoves,currentPosition,board);
+        this.quadrantCheck(-1,1,availableMoves,currentPosition,board);
+        this.quadrantCheck(1,-1,availableMoves,currentPosition,board);
+        this.quadrantCheck(1,1,availableMoves,currentPosition,board);
 
         return availableMoves;
     }

@@ -28,4 +28,17 @@ export default class Piece {
         const currentSquare = board.findPiece(this);
         board.movePiece(currentSquare, newSquare);
     }
+
+    public quadrantCheck(rowStep : number, colStep : number, availableMoves : Array<Square>, currentPosition : Square, board : Board){
+        let oldRow = currentPosition.row;
+        let oldCol = currentPosition.col;
+        for (let step = 0; step < Piece.boardSize; step++) {
+            let newRow = oldRow + step * rowStep;
+            let newCol = oldCol + step * colStep;
+            if(this.addAvailableMove(availableMoves, newRow, newCol, currentPosition) && board.getPiece(new Square(newRow, newCol))){
+                break;
+            }
+        }
+
+    }
 }
