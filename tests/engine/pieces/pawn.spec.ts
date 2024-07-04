@@ -83,6 +83,32 @@ describe('Pawn', () => {
 
             moves.should.not.deep.include(Square.at(5, 3));
         });
+
+        it('en passant is a valid move', () => {
+            const capturingPawn = new Pawn(Player.WHITE)
+            const capturedPawn = new Pawn(Player.BLACK)
+            capturedPawn.movedTwoInitially = true
+
+            board.setPiece(Square.at(4, 5), capturingPawn)
+            board.setPiece(Square.at(4, 4), capturedPawn)
+
+            const moves = capturingPawn.getAvailableMoves(board)
+
+            moves.should.deep.include(Square.at(5, 4))
+        })
+
+        it('en passant removes captured pawn from board', ()=> {
+            const capturingPawn = new Pawn(Player.WHITE)
+            const capturedPawn = new Pawn(Player.BLACK)
+            capturedPawn.movedTwoInitially = true
+
+            board.setPiece(Square.at(4, 5), capturingPawn)
+            board.setPiece(Square.at(4, 4), capturedPawn)
+
+            capturingPawn.moveTo(board, Square.at(5, 4))
+
+            expect(board.getPiece(Square.at(4, 4))).toBeUndefined()
+        })
     });
 
     describe('black pawns', () => {
