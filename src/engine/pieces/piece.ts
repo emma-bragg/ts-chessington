@@ -1,6 +1,7 @@
 import Player from '../player';
 import Board from '../board';
 import Square from '../square';
+import Pawn from './pawn';
 
 export default class Piece {
     public player: Player;
@@ -11,6 +12,13 @@ export default class Piece {
 
     public getAvailableMoves(board: Board) {
         throw new Error('This method must be implemented, and return a list of available moves');
+    }
+
+    public addAvailableMove(availableMoves: Array<Square>, newRow : number, newCol : number, currentPosition : Square){
+        let newPos = new Square(newRow, newCol);
+        if(!currentPosition.equals(newPos) && newPos.inBoundsCheck()){
+            availableMoves.push(newPos);
+        }
     }
 
     public moveTo(board: Board, newSquare: Square) {
