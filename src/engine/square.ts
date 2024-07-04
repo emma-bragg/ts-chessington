@@ -1,3 +1,4 @@
+import GameSettings from "./gameSettings";
 export default class Square {
     public row: number;
     public col: number;
@@ -17,5 +18,10 @@ export default class Square {
 
     public toString() {
         return `Row ${this.row}, Col ${this.col}`;
+    }
+
+    
+    public inBoundsCheck() {
+        return this.row >= 0 && this.row < GameSettings.BOARD_SIZE && this.col >= 0 && this.col < GameSettings.BOARD_SIZE;
     }
 }
