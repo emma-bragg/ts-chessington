@@ -4,13 +4,6 @@ import Board from '../board';
 import GameSettings from '../gameSettings';
 import Square from '../square';
 
-enum RookDirection {
-    UP,
-    DOWN,
-    LEFT,
-    RIGHT
-}
-
 export default class Rook extends Piece {
     public constructor(player: Player) {
         super(player);
@@ -54,16 +47,5 @@ export default class Rook extends Piece {
         }
 
         return validMoves;
-    }
-
-    private isValidMove(board: Board, nextSquare: Square) {
-        let pieceOnBoard = board.getPiece(nextSquare)
-        if (pieceOnBoard === undefined) {
-            return {'isValid': true, 'break': false}
-        } else {
-            if (this.player != pieceOnBoard.player)
-                return {'isValid': true, 'break': true}
-            return {'isValid': false, 'break': false};
-        }
     }
 }

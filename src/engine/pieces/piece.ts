@@ -17,4 +17,15 @@ export default class Piece {
         const currentSquare = board.findPiece(this);
         board.movePiece(currentSquare, newSquare);
     }
+
+    public isValidMove(board: Board, nextSquare: Square) {
+        let pieceOnBoard = board.getPiece(nextSquare)
+        if (pieceOnBoard === undefined) {
+            return {'isValid': true, 'break': false}
+        } else {
+            if (this.player != pieceOnBoard.player)
+                return {'isValid': true, 'break': true}
+            return {'isValid': false, 'break': false};
+        }
+    }
 }
