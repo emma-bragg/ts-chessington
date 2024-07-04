@@ -18,16 +18,4 @@ export default class Piece {
         const currentSquare = board.findPiece(this);
         board.movePiece(currentSquare, newSquare);
     }
-
-    public moveInBounds(newMove: Square){
-        if (
-            (newMove.col > GameSettings.BOARD_SIZE-1) ||
-            (newMove.col < 0)||
-            (newMove.row > GameSettings.BOARD_SIZE-1) ||
-            (newMove.row < 0)
-        ){
-            return false;
-        } 
-        return true;
-    }
 }
