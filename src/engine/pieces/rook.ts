@@ -29,8 +29,6 @@ export default class Rook extends Piece {
                 moveList.push(Square.at(i, currentPosition.col));
             }
         }
-        
         return moveList;
-        
     }
 }

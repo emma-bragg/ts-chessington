@@ -1,6 +1,7 @@
 import Player from '../player';
 import Board from '../board';
 import Square from '../square';
+import GameSettings from '../gameSettings';
 
 export default class Piece {
     public player: Player;
@@ -16,5 +17,17 @@ export default class Piece {
     public moveTo(board: Board, newSquare: Square) {
         const currentSquare = board.findPiece(this);
         board.movePiece(currentSquare, newSquare);
+    }
+
+    public moveInBounds(newMove: Square){
+        if (
+            (newMove.col > GameSettings.BOARD_SIZE-1) ||
+            (newMove.col < 0)||
+            (newMove.row > GameSettings.BOARD_SIZE-1) ||
+            (newMove.row < 0)
+        ){
+            return false;
+        } 
+        return true;
     }
 }
