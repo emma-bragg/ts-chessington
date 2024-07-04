@@ -4,7 +4,8 @@ import Board from '../board';
 
 export default class King extends Piece {
     public constructor(player: Player) {
-        super(player);
+        super(player)
+        this.isKing = true
     }
 
     public getAvailableMoves(board: Board) {

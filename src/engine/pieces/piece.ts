@@ -4,6 +4,7 @@ import Square from '../square';
 
 export default class Piece {
     public player: Player;
+    public isKing: boolean = false
 
     public constructor(player: Player) {
         this.player = player;
@@ -23,7 +24,7 @@ export default class Piece {
         if (pieceOnBoard === undefined) {
             return {'isValid': true, 'break': false}
         } else {
-            return {'isValid': (this.player != pieceOnBoard.player), 'break': true};
+            return {'isValid': (this.player != pieceOnBoard.player) && !(pieceOnBoard.isKing), 'break': true};
         }
     }
 }
