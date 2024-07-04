@@ -19,7 +19,7 @@ export default class Rook extends Piece {
                 break;
             }
         }
-        for (let newRow = oldRow+1; newRow < 8; newRow++) {
+        for (let newRow = oldRow+1; newRow < Piece.boardSize; newRow++) {
             this.addAvailableMove(availableMoves, newRow, oldCol, currentPosition);
             if(board.getPiece(new Square(newRow, oldCol))) {
                 break;
@@ -31,7 +31,7 @@ export default class Rook extends Piece {
                 break;
             }
         }
-        for (let newCol = oldCol+1; newCol < 8; newCol++) {
+        for (let newCol = oldCol+1; newCol < Piece.boardSize; newCol++) {
             this.addAvailableMove(availableMoves, oldRow, newCol, currentPosition);
             if(board.getPiece(new Square(oldRow, newCol))) {
                 break;

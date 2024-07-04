@@ -24,7 +24,7 @@ export default class Pawn extends Piece {
         
         else {
             this.addAvailableMove(availableMoves, oldRow-1, oldCol, currentPosition);
-            if (oldRow == 6 && !board.getPiece(new Square(oldRow-1, oldCol))) {
+            if (oldRow == Piece.boardSize-2 && !board.getPiece(new Square(oldRow-1, oldCol))) {
                 this.addAvailableMove(availableMoves, oldRow-2, oldCol, currentPosition);
             }
         }

@@ -1,10 +1,11 @@
 import Player from '../player';
 import Board from '../board';
 import Square from '../square';
-import Pawn from './pawn';
+import GameSettings from '../gameSettings';
 
 export default class Piece {
     public player: Player;
+    public static boardSize: number = GameSettings.BOARD_SIZE;
 
     public constructor(player: Player) {
         this.player = player;

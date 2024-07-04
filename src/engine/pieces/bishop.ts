@@ -13,8 +13,8 @@ export default class Bishop extends Piece {
         let currentPosition = board.findPiece(this);
         let oldRow = currentPosition.row;
         let oldCol = currentPosition.col;
-        for (let newRow = 0; newRow < 8; newRow++) {
-            for (let newCol = 0; newCol < 8; newCol++) {
+        for (let newRow = 0; newRow < Piece.boardSize; newRow++) {
+            for (let newCol = 0; newCol < Piece.boardSize; newCol++) {
                 if (newRow-newCol == oldRow-oldCol || newRow+newCol == oldRow+oldCol) {   
                     this.addAvailableMove(availableMoves, newRow, newCol, currentPosition);
                 }
