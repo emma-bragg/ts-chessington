@@ -23,9 +23,7 @@ export default class Piece {
         if (pieceOnBoard === undefined) {
             return {'isValid': true, 'break': false}
         } else {
-            if (this.player != pieceOnBoard.player)
-                return {'isValid': true, 'break': true}
-            return {'isValid': false, 'break': false};
+            return {'isValid': (this.player != pieceOnBoard.player), 'break': true};
         }
     }
 }
