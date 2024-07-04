@@ -1,7 +1,7 @@
 import Piece from './piece';
 import Player from '../player';
 import Board from '../board';
-import { diagonalMoves } from '../helper';
+import { getDiagonalMoves } from '../helper';
 
 export default class Bishop extends Piece {
     public constructor(player: Player) {
@@ -10,7 +10,7 @@ export default class Bishop extends Piece {
 
     public getAvailableMoves(board: Board) {
         const currentPosition = board.findPiece(this);
-        const moveList = diagonalMoves(board, currentPosition);
+        const moveList = getDiagonalMoves(currentPosition);
         return moveList;
     }
 }
