@@ -10,23 +10,33 @@ export default class Pawn extends Piece {
 
     public getAvailableMoves(board: Board) {
         let availableMoves = new Array<Square>();
+        let finalAvailableMoves = [];
         let currentPosition = board.findPiece(this);
         let oldRow = currentPosition.row;
         let oldCol = currentPosition.col;
 
         if (this.player == 0) {
             this.addAvailableMove(availableMoves, oldRow+1, oldCol, currentPosition);
-            if (oldRow == 1) {
+            if (oldRow == 1 && !board.getPiece(new Square(oldRow+1, oldCol))) {
                 this.addAvailableMove(availableMoves, oldRow+2, oldCol, currentPosition);
             }
         }
         
         else {
             this.addAvailableMove(availableMoves, oldRow-1, oldCol, currentPosition);
-            if (oldRow == 6) {
+            if (oldRow == 6 && !board.getPiece(new Square(oldRow-1, oldCol))) {
                 this.addAvailableMove(availableMoves, oldRow-2, oldCol, currentPosition);
             }
         }
-        return availableMoves;
+
+        for (let index = 0; index < availableMoves.length; index++) {
+            let availablePos = availableMoves[index];
+            if(!board.getPiece(availablePos)) {
+                finalAvailableMoves.push(availablePos);
+            }
+            
+        }
+
+        return finalAvailableMoves;
     }
 }
