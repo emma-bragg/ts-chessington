@@ -13,8 +13,14 @@ export default class Pawn extends Piece {
         let moveList = [];
         if (this.player === Player.WHITE){
             moveList.push(Square.at(currentPosition.row+1, currentPosition.col));
+            if (currentPosition.row == 1) {
+                moveList.push(Square.at(currentPosition.row+2, currentPosition.col));
+            }
         } else{
             moveList.push(Square.at(currentPosition.row-1, currentPosition.col));
+            if (currentPosition.row == 6) {
+                moveList.push(Square.at(currentPosition.row-2, currentPosition.col));
+            }
         }
         return moveList;
     }
