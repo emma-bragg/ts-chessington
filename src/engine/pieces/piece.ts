@@ -19,7 +19,9 @@ export default class Piece {
         let newPos = new Square(newRow, newCol);
         if(!currentPosition.equals(newPos) && newPos.inBoundsCheck()){
             availableMoves.push(newPos);
+            return true;
         }
+        return false;
     }
 
     public moveTo(board: Board, newSquare: Square) {

@@ -13,11 +13,33 @@ export default class Bishop extends Piece {
         let currentPosition = board.findPiece(this);
         let oldRow = currentPosition.row;
         let oldCol = currentPosition.col;
-        for (let newRow = 0; newRow < Piece.boardSize; newRow++) {
-            for (let newCol = 0; newCol < Piece.boardSize; newCol++) {
-                if (newRow-newCol == oldRow-oldCol || newRow+newCol == oldRow+oldCol) {   
-                    this.addAvailableMove(availableMoves, newRow, newCol, currentPosition);
-                }
+        
+        for (let step = 0; step < Piece.boardSize; step++) {
+            let newRow = oldRow - step;
+            let newCol = oldCol - step;
+            if(this.addAvailableMove(availableMoves, newRow, newCol, currentPosition) && board.getPiece(new Square(newRow, newCol))){
+                break;
+            }
+        }
+        for (let step = 0; step < Piece.boardSize; step++) {
+            let newRow = oldRow - step;
+            let newCol = oldCol + step;
+            if(this.addAvailableMove(availableMoves, newRow, newCol, currentPosition) && board.getPiece(new Square(newRow, newCol))){
+                break;
+            }
+        }
+        for (let step = 0; step < Piece.boardSize; step++) {
+            let newRow = oldRow + step;
+            let newCol = oldCol - step;
+            if(this.addAvailableMove(availableMoves, newRow, newCol, currentPosition) && board.getPiece(new Square(newRow, newCol))){
+                break;
+            }
+        }
+        for (let step = 0; step < Piece.boardSize; step++) {
+            let newRow = oldRow + step;
+            let newCol = oldCol + step;
+            if(this.addAvailableMove(availableMoves, newRow, newCol, currentPosition) && board.getPiece(new Square(newRow, newCol))){
+                break;
             }
         }
         
