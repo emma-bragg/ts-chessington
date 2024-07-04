@@ -47,4 +47,8 @@ export default class Board {
         }
         return board;
     }
+
+    public isOnBoard(square : Square) : boolean {
+        return (square.row < GameSettings.BOARD_SIZE && square.row >= 0 && square.col < GameSettings.BOARD_SIZE && square.col >= 0)
+    }
 }

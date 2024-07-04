@@ -18,4 +18,8 @@ export default class Square {
     public toString() {
         return `Row ${this.row}, Col ${this.col}`;
     }
+
+    public moveBy(rowChange : number, colChange : number) {
+        return new Square(this.row + rowChange, this.col + colChange)
+    }
 }
