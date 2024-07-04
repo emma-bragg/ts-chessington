@@ -5,6 +5,8 @@ import Square from '../../../src/engine/square';
 import Rook from '../../../src/engine/pieces/rook';
 import King from '../../../src/engine/pieces/king';
 
+var expect = require('expect.js');
+
 describe('Pawn', () => {
 
     let board: Board;
@@ -107,7 +109,8 @@ describe('Pawn', () => {
 
             capturingPawn.moveTo(board, Square.at(5, 4))
 
-            expect(board.getPiece(Square.at(4, 4))).toBeUndefined()
+            let takenPiece = board.getPiece(Square.at(4, 4))
+            expect(takenPiece).to.be(undefined)
         })
     });
 
