@@ -1,7 +1,7 @@
-import Piece, {MoveDiagnostic, PieceType} from './piece';
+import Piece, { PieceType } from './piece';
 import Player from '../player';
 import Board from '../board';
-import Square from '../square';
+import Square, { SquareState } from '../square';
 import GameSettings from '../gameSettings';
 
 export default class King extends Piece {
@@ -21,7 +21,7 @@ export default class King extends Piece {
                     continue;
                 }
                 let nextSquare = currentSquare.moveBy(rowChange, colChange);
-                if (board.isOnBoard(nextSquare) && this.isValidMove(board, nextSquare) != MoveDiagnostic.UNCAPTURABLE_PIECE_PRESENT)
+                if (board.isOnBoard(nextSquare) && this.isValidMove(board, nextSquare) != SquareState.UNCAPTURABLE_PIECE_PRESENT)
                     validMoves.push(nextSquare);
             }
         }
@@ -45,7 +45,7 @@ export default class King extends Piece {
                 let pieceInBetween = false;
                 let col = Math.min(currentSquare.col, rookCol) + 1; 
                 while (col < Math.max(currentSquare.col, rookCol) && !pieceInBetween) {
-                    
+
                     if (board.getPiece(Square.at(currentSquare.row, col)) !== undefined)
                         pieceInBetween = true;
                     col++;
@@ -65,8 +65,8 @@ export default class King extends Piece {
         let changeInCol = currentSquare.col - newSquare.col
 
         if (Math.abs(changeInCol) == 2) {
-            let rookFromSquare = Square.at(currentSquare.row, (changeInCol < 0) ? GameSettings.BOARD_SIZE - 1 : 0);
-            let rookToSquare = currentSquare.moveBy(0, (changeInCol < 0) ? 1 : -1);
+            let rookFromSquare = Square.at(currentSquare.row, (changeInCol < 0) ? GameSettings.BOARD_SIZE - 1: 0);
+            let rookToSquare = currentSquare.moveBy(0, (changeInCol < 0) ? 1: -1);
             
             let castlingRook = board.getPiece(rookFromSquare)
             if (castlingRook === undefined)

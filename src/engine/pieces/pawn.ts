@@ -1,7 +1,7 @@
-import Piece, { MoveDiagnostic, PieceType } from './piece';
+import Piece, { PieceType } from './piece';
 import Player from '../player';
 import Board from '../board';
-import Square from '../square';
+import Square, { SquareState } from '../square';
 
 export enum PawnMove {
     ADVANCE_1,
@@ -11,7 +11,7 @@ export enum PawnMove {
 }
 
 export default class Pawn extends Piece {
-    public lastMove : PawnMove | null = null;
+    public lastMove: PawnMove | null = null;
 
     public constructor(player: Player) {
         super(player, PieceType.PAWN);
@@ -21,22 +21,22 @@ export default class Pawn extends Piece {
         let validMoves = new Array(0);
         let currentSquare = board.findPiece(this)
 
-        let rowDirection = (this.player == Player.WHITE) ? 1 : -1;
+        let rowDirection = (this.player == Player.WHITE) ? 1: -1;
 
         let nextSquareForward1 = currentSquare.moveBy(rowDirection, 0);
         let nextSquareForward2 = currentSquare.moveBy(rowDirection * 2, 0)
         let nextSquareDiags = [currentSquare.moveBy(rowDirection, 1), currentSquare.moveBy(rowDirection, -1)]
         let enPassantSquares = [currentSquare.moveBy(0,1), currentSquare.moveBy(0,-1)]
 
-        if (board.isOnBoard(nextSquareForward1) && this.isValidMove(board, nextSquareForward1) == MoveDiagnostic.EMPTY_SQUARE)
+        if (board.isOnBoard(nextSquareForward1) && this.isValidMove(board, nextSquareForward1) == SquareState.EMPTY_SQUARE)
         {
             validMoves.push(nextSquareForward1)
-            let pawnStartingRow = (this.player == Player.WHITE) ? 1 : 6
+            let pawnStartingRow = (this.player == Player.WHITE) ? 1: 6
 
             if (
                 currentSquare.row == pawnStartingRow && 
                 board.isOnBoard(nextSquareForward2) && 
-                this.isValidMove(board, nextSquareForward2) == MoveDiagnostic.EMPTY_SQUARE
+                this.isValidMove(board, nextSquareForward2) == SquareState.EMPTY_SQUARE
             ) {
                 validMoves.push(nextSquareForward2)
             }
@@ -71,7 +71,7 @@ export default class Pawn extends Piece {
         let relativeChangeInPosition = {"rowChange": Math.abs(currentSquare.row - newSquare.row), "colChange": Math.abs(currentSquare.col - newSquare.col)};
         
         if (relativeChangeInPosition.colChange == 0) {
-            this.lastMove = relativeChangeInPosition.rowChange == 1 ? PawnMove.ADVANCE_1 : PawnMove.ADVANCE_2;
+            this.lastMove = relativeChangeInPosition.rowChange == 1 ? PawnMove.ADVANCE_1: PawnMove.ADVANCE_2;
         }
         else {
             if (board.getPiece(newSquare) === undefined) {

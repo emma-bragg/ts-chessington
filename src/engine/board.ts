@@ -9,7 +9,7 @@ export default class Board {
     private readonly board: (Piece | undefined)[][];
 
     public constructor(currentPlayer?: Player) {
-        this.currentPlayer = currentPlayer ? currentPlayer : Player.WHITE;
+        this.currentPlayer = currentPlayer || Player.WHITE;
         this.board = this.createBoard();
     }
 
@@ -37,7 +37,7 @@ export default class Board {
         if (!!movingPiece && movingPiece.player === this.currentPlayer) {
             this.setPiece(toSquare, movingPiece);
             this.setPiece(fromSquare, undefined);
-            this.currentPlayer = (this.currentPlayer === Player.WHITE ? Player.BLACK : Player.WHITE);
+            this.currentPlayer = (this.currentPlayer === Player.WHITE ? Player.BLACK: Player.WHITE);
             this.lastMovedPiece = movingPiece;
         }
     }
@@ -50,7 +50,7 @@ export default class Board {
         return board;
     }
 
-    public isOnBoard(square : Square) : boolean {
+    public isOnBoard(square: Square): boolean {
         return (square.row < GameSettings.BOARD_SIZE && square.row >= 0 && square.col < GameSettings.BOARD_SIZE && square.col >= 0)
     }
 }

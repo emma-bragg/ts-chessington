@@ -23,7 +23,7 @@ function positionStringToSquare(positionString) {
 }
 
 function pieceToPieceString(piece) {
-    const playerString = piece.player === Player.WHITE ? 'w' : 'b';
+    const playerString = piece.player === Player.WHITE ? 'w': 'b';
     
     if (piece instanceof Pawn) {
         return playerString + 'P';
@@ -77,7 +77,7 @@ function onSnapEnd() {
 }
 
 function updateStatus() {
-    const player = board.currentPlayer === Player.WHITE ? 'White' : 'Black';
+    const player = board.currentPlayer === Player.WHITE ? 'White': 'Black';
     document.getElementById('turn-status').innerHTML = `${player} to move`;
 }
 

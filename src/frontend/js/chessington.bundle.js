@@ -143,7 +143,7 @@ class Board {
 
             this.setPiece(toSquare, movingPiece);
             this.setPiece(fromSquare, undefined);
-            this.currentPlayer = this.currentPlayer === __WEBPACK_IMPORTED_MODULE_0__player__["a" /* default */].WHITE ? __WEBPACK_IMPORTED_MODULE_0__player__["a" /* default */].BLACK : __WEBPACK_IMPORTED_MODULE_0__player__["a" /* default */].WHITE;
+            this.currentPlayer = this.currentPlayer === __WEBPACK_IMPORTED_MODULE_0__player__["a" /* default */].WHITE ? __WEBPACK_IMPORTED_MODULE_0__player__["a" /* default */].BLACK: __WEBPACK_IMPORTED_MODULE_0__player__["a" /* default */].WHITE;
         }
     }
 }

@@ -1,7 +1,7 @@
 import Player from '../player';
 import Board from '../board';
-import Square from '../square';
-import Direction from '../directions';
+import Square, { SquareState } from '../square';
+import PositionChange from '../positionChange';
 
 export enum PieceType {
     KING,
@@ -10,12 +10,6 @@ export enum PieceType {
     BISHOP,
     KNIGHT,
     PAWN
-}
-
-export enum MoveDiagnostic {
-    EMPTY_SQUARE,
-    CAPTURABLE_PIECE_PRESENT,
-    UNCAPTURABLE_PIECE_PRESENT
 }
 
 export default class Piece {
@@ -42,56 +36,58 @@ export default class Piece {
 
         let pieceOnBoard = board.getPiece(nextSquare)
         if (pieceOnBoard === undefined)
-            return MoveDiagnostic.EMPTY_SQUARE;
+            return SquareState.EMPTY_SQUARE;
 
         if ((this.player != pieceOnBoard.player) && (pieceOnBoard.pieceType != PieceType.KING))
-            return MoveDiagnostic.CAPTURABLE_PIECE_PRESENT;
+            return SquareState.CAPTURABLE_PIECE_PRESENT;
 
-        return MoveDiagnostic.UNCAPTURABLE_PIECE_PRESENT;
+        return SquareState.UNCAPTURABLE_PIECE_PRESENT;
     }
 
-    private getDirectionalMoves(board : Board, directions : Array<Direction>)
+    private getDirectionalMoves(board: Board, directionChanges: Array<PositionChange>)
     {
         let validMoves = new Array(0);
         let currentSquare = board.findPiece(this);
 
-        for (let direction of directions) {
-            let nextSquare = currentSquare.moveBy(direction.rowChange, direction.colChange);
+        directionChanges.forEach(directionChange => {
+            let nextSquare = currentSquare.moveBy(directionChange.row, directionChange.col);
             let keepTesting = true;
             while (board.isOnBoard(nextSquare) && keepTesting) {
                 switch (this.isValidMove(board, nextSquare)) {
-                    case MoveDiagnostic.EMPTY_SQUARE:
+                    case SquareState.EMPTY_SQUARE:
                         validMoves.push(nextSquare);
                         break;
-                    case MoveDiagnostic.CAPTURABLE_PIECE_PRESENT:
+                    case SquareState.CAPTURABLE_PIECE_PRESENT:
                         validMoves.push(nextSquare);
                         keepTesting = false;
                         break;
-                    case MoveDiagnostic.UNCAPTURABLE_PIECE_PRESENT:
+                    case SquareState.UNCAPTURABLE_PIECE_PRESENT:
                         keepTesting = false;
                         break;
                 }
-                nextSquare = nextSquare.moveBy(direction.rowChange, direction.colChange);
+                nextSquare = nextSquare.moveBy(directionChange.row, directionChange.col);
             }
-        }
+        })
         return validMoves;
     }
 
-    public getDiagonalMoves(board: Board) : Array<Square>{
-
-        let directions = [{"rowChange": 1,"colChange": 1}, 
-            {"rowChange": 1,"colChange": -1}, 
-            {"rowChange": -1,"colChange": 1}, 
-            {"rowChange": -1,"colChange": -1}];
-        return this.getDirectionalMoves(board, directions);
+    public getDiagonalMoves(board: Board): Array<Square>{
+        const directionChanges = [
+            {row: 1, col: 1}, 
+            {row: 1, col: -1}, 
+            {row: -1, col: 1}, 
+            {row: -1, col: -1}
+        ];
+        return this.getDirectionalMoves(board, directionChanges);
     }
 
-    public getLateralMoves(board: Board) : Array<Square>{
-
-        let directions = [{"rowChange": 1,"colChange": 0}, 
-            {"rowChange": -1,"colChange": 0}, 
-            {"rowChange": 0,"colChange": 1}, 
-            {"rowChange": 0,"colChange": -1}];
-        return this.getDirectionalMoves(board, directions);
+    public getLateralMoves(board: Board): Array<Square>{
+        const directionChanges = [
+            {row: 1, col: 0}, 
+            {row: -1, col: 0}, 
+            {row: 0, col: 1}, 
+            {row: 0, col: -1}
+        ];
+        return this.getDirectionalMoves(board, directionChanges);
     }
 }

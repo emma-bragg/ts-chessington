@@ -1,4 +1,8 @@
-import Direction from "./directions";
+export enum SquareState {
+    EMPTY_SQUARE,
+    CAPTURABLE_PIECE_PRESENT,
+    UNCAPTURABLE_PIECE_PRESENT
+}
 
 export default class Square {
     public row: number;
@@ -21,11 +25,7 @@ export default class Square {
         return `Row ${this.row}, Col ${this.col}`;
     }
 
-    public moveBy(rowChange : number, colChange : number) {
+    public moveBy(rowChange: number, colChange: number) {
         return new Square(this.row + rowChange, this.col + colChange)
-    }
-
-    public moveByDirection(direction: Direction) {
-        return new Square(this.row + direction.rowChange, this.col + direction.colChange)
     }
 }
