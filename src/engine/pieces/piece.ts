@@ -7,6 +7,7 @@ import King from './king';
 export default class Piece {
     public player: Player;
     public static boardSize: number = GameSettings.BOARD_SIZE;
+    public isKing: Boolean = false;
 
     public constructor(player: Player) {
         this.player = player;
@@ -21,7 +22,7 @@ export default class Piece {
         let newPosInBound = newPos.inBoundsCheck();
         if(!currentPosition.equals(newPos) && newPosInBound){
             let pieceAtNewPos = board.getPiece(newPos);
-            if(pieceAtNewPos == undefined || pieceAtNewPos.player != this.player){
+            if(pieceAtNewPos == undefined || (pieceAtNewPos.player != this.player && !pieceAtNewPos.isKing)){
                 availableMoves.push(newPos);
             }
             return pieceAtNewPos == undefined;
