@@ -1,3 +1,5 @@
+import Direction from "./directions";
+
 export default class Square {
     public row: number;
     public col: number;
@@ -21,5 +23,9 @@ export default class Square {
 
     public moveBy(rowChange : number, colChange : number) {
         return new Square(this.row + rowChange, this.col + colChange)
+    }
+
+    public moveByDirection(direction: Direction) {
+        return new Square(this.row + direction.rowChange, this.col + direction.colChange)
     }
 }

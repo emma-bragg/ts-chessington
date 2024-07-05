@@ -1,4 +1,4 @@
-import Pawn from '../../../src/engine/pieces/pawn';
+import Pawn, { PawnMove } from '../../../src/engine/pieces/pawn';
 import Board from '../../../src/engine/board';
 import Player from '../../../src/engine/player';
 import Square from '../../../src/engine/square';
@@ -89,10 +89,11 @@ describe('Pawn', () => {
         it('en passant is a valid move', () => {
             const capturingPawn = new Pawn(Player.WHITE)
             const capturedPawn = new Pawn(Player.BLACK)
-            capturedPawn.movedTwoInitially = true
+            capturedPawn.lastMove = PawnMove.ADVANCE_2
 
             board.setPiece(Square.at(4, 5), capturingPawn)
             board.setPiece(Square.at(4, 4), capturedPawn)
+            board.lastMovedPiece = capturedPawn
 
             const moves = capturingPawn.getAvailableMoves(board)
 
@@ -102,10 +103,11 @@ describe('Pawn', () => {
         it('en passant removes captured pawn from board', ()=> {
             const capturingPawn = new Pawn(Player.WHITE)
             const capturedPawn = new Pawn(Player.BLACK)
-            capturedPawn.movedTwoInitially = true
+            capturedPawn.lastMove = PawnMove.ADVANCE_2
 
             board.setPiece(Square.at(4, 5), capturingPawn)
             board.setPiece(Square.at(4, 4), capturedPawn)
+            board.lastMovedPiece = capturedPawn
 
             capturingPawn.moveTo(board, Square.at(5, 4))
 
@@ -194,10 +196,11 @@ describe('Pawn', () => {
         it('en passant is a valid move', () => {
             const capturingPawn = new Pawn(Player.BLACK)
             const capturedPawn = new Pawn(Player.WHITE)
-            capturedPawn.movedTwoInitially = true
+            capturedPawn.lastMove = PawnMove.ADVANCE_2
     
             board.setPiece(Square.at(3, 4), capturingPawn)
             board.setPiece(Square.at(3, 3), capturedPawn)
+            board.lastMovedPiece = capturedPawn
     
             const moves = capturingPawn.getAvailableMoves(board)
     
@@ -207,10 +210,11 @@ describe('Pawn', () => {
         it('en passant removes captured pawn from board', ()=> {
             const capturingPawn = new Pawn(Player.BLACK)
             const capturedPawn = new Pawn(Player.WHITE)
-            capturedPawn.movedTwoInitially = true
+            capturedPawn.lastMove = PawnMove.ADVANCE_2
     
             board.setPiece(Square.at(3, 4), capturingPawn)
             board.setPiece(Square.at(3, 3), capturedPawn)
+            board.lastMovedPiece = capturedPawn
     
             capturingPawn.moveTo(board, Square.at(2, 3))
     

@@ -1,11 +1,16 @@
-import Piece, { PieceType } from './piece';
+import Piece, { MoveDiagnostic, PieceType } from './piece';
 import Player from '../player';
 import Board from '../board';
-import Square from '../square';
 
+export enum PawnMove {
+    ADVANCE_1,
+    ADVANCE_2,
+    TAKE_DIAGONALLY,
+    EN_PASSANT
+}
 
 export default class Pawn extends Piece {
-    public movedTwoInitially : boolean = false
+    public lastMove : PawnMove | null = null;
 
     public constructor(player: Player) {
         super(player, PieceType.PAWN);
@@ -15,30 +20,24 @@ export default class Pawn extends Piece {
         let validMoves = new Array(0);
         let currentSquare = board.findPiece(this)
 
-        let nextSquare1 : Square;
-        let nextSquare2 : Square | null = null
-        let nextSquareDiags : Array<Square>
-        let enPassantSquares : Array<Square> = [currentSquare.moveBy(0,1), currentSquare.moveBy(0,-1)]
+        let rowDirection = (this.player == Player.WHITE) ? 1 : -1;
 
-        switch (this.player) {
-            case Player.WHITE:
-                nextSquare1 = currentSquare.moveBy(1, 0)
-                if (currentSquare.row == 1)
-                    nextSquare2 = currentSquare.moveBy(2, 0)
-                nextSquareDiags = [currentSquare.moveBy(1, -1), currentSquare.moveBy(1, 1)]
-                break
-            case Player.BLACK:
-                nextSquare1 = currentSquare.moveBy(-1, 0)
-                if (currentSquare.row == 6)
-                    nextSquare2 = currentSquare.moveBy(-2, 0)
-                nextSquareDiags = [currentSquare.moveBy(-1, 1), currentSquare.moveBy(-1, -1)]
-                break
-        }
-        if (board.isOnBoard(nextSquare1) && board.getPiece(nextSquare1) === undefined)
+        let nextSquareForward1 = currentSquare.moveBy(rowDirection, 0);
+        let nextSquareForward2 = currentSquare.moveBy(rowDirection * 2, 0)
+        let nextSquareDiags = [currentSquare.moveBy(rowDirection, 1), currentSquare.moveBy(rowDirection, -1)]
+        let enPassantSquares = [currentSquare.moveBy(0,1), currentSquare.moveBy(0,-1)]
+
+        if (board.isOnBoard(nextSquareForward1) && this.isValidMove(board, nextSquareForward1) == MoveDiagnostic.EMPTY_SQUARE)
         {
-            validMoves.push(nextSquare1)
-            if (nextSquare2 != null && board.isOnBoard(nextSquare2) && board.getPiece(nextSquare2) === undefined) {
-                validMoves.push(nextSquare2)
+            validMoves.push(nextSquareForward1)
+            let pawnStartingRow = (this.player == Player.WHITE) ? 1 : 6
+
+            if (
+                currentSquare.row == pawnStartingRow && 
+                board.isOnBoard(nextSquareForward2) && 
+                this.isValidMove(board, nextSquareForward2) == MoveDiagnostic.EMPTY_SQUARE
+            ) {
+                validMoves.push(nextSquareForward2)
             }
         }
 
@@ -52,8 +51,17 @@ export default class Pawn extends Piece {
         for (let enPassantMove of enPassantSquares) {
             if (board.isOnBoard(enPassantMove)) {
                 let pieceOnBoard = board.getPiece(enPassantMove)
-                if (pieceOnBoard !== undefined && pieceOnBoard.player != this.player && pieceOnBoard.pieceType != PieceType.KING) 
-                    validMoves.push(enPassantMove)
+                if (
+                    pieceOnBoard !== undefined && 
+                    pieceOnBoard.pieceType == PieceType.PAWN && 
+                    pieceOnBoard.player != this.player &&
+                    (pieceOnBoard as Pawn).lastMove == PawnMove.ADVANCE_2 && 
+                    board.lastMovedPiece == pieceOnBoard
+                ) {
+                    console.log(currentSquare)
+                    console.log(enPassantMove)
+                    validMoves.push(enPassantMove.moveBy(rowDirection, 0))
+                }
             }
         } 
 
