@@ -2,6 +2,7 @@ import Player from '../player';
 import Board from '../board';
 import Square from '../square';
 import GameSettings from '../gameSettings';
+import King from './king';
 
 export default class Piece {
     public player: Player;
@@ -15,13 +16,17 @@ export default class Piece {
         throw new Error('This method must be implemented, and return a list of available moves');
     }
 
-    public addAvailableMove(availableMoves: Array<Square>, newRow : number, newCol : number, currentPosition : Square){
+    public addAvailableMoveAndContinue(availableMoves: Array<Square>, newRow : number, newCol : number, currentPosition : Square, board : Board){
         let newPos = new Square(newRow, newCol);
-        if(!currentPosition.equals(newPos) && newPos.inBoundsCheck()){
-            availableMoves.push(newPos);
-            return true;
+        let newPosInBound = newPos.inBoundsCheck();
+        if(!currentPosition.equals(newPos) && newPosInBound){
+            let pieceAtNewPos = board.getPiece(newPos);
+            if(pieceAtNewPos == undefined || pieceAtNewPos.player != this.player){
+                availableMoves.push(newPos);
+            }
+            return pieceAtNewPos == undefined;
         }
-        return false;
+        return newPosInBound;
     }
 
     public moveTo(board: Board, newSquare: Square) {
@@ -35,7 +40,8 @@ export default class Piece {
         for (let step = 0; step < Piece.boardSize; step++) {
             let newRow = oldRow + step * rowStep;
             let newCol = oldCol + step * colStep;
-            if(this.addAvailableMove(availableMoves, newRow, newCol, currentPosition) && board.getPiece(new Square(newRow, newCol))){
+
+            if(!this.addAvailableMoveAndContinue(availableMoves, newRow, newCol, currentPosition, board)){
                 break;
             }
         }

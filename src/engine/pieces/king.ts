@@ -16,7 +16,7 @@ export default class King extends Piece {
 
         for (let index1 = -1; index1 < 2; index1++){
             for (let index2 = -1; index2 < 2; index2++){
-                this.addAvailableMove(availableMoves, oldRow+index1, oldCol+index2, currentPosition);
+                this.addAvailableMoveAndContinue(availableMoves, oldRow+index1, oldCol+index2, currentPosition, board);
             }
         }
 

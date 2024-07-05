@@ -19,8 +19,8 @@ export default class Knight extends Piece {
         let twos = [-2, 2]
         for (let index1 = 0; index1 < ones.length; index1++) {
             for (let index2 = 0; index2 < twos.length; index2++) {
-                this.addAvailableMove(availableMoves, oldRow+ones[index1], oldCol+twos[index2], currentPosition);
-                this.addAvailableMove(availableMoves, oldRow+twos[index2], oldCol+ones[index1], currentPosition);
+                this.addAvailableMoveAndContinue(availableMoves, oldRow+ones[index1], oldCol+twos[index2], currentPosition, board);
+                this.addAvailableMoveAndContinue(availableMoves, oldRow+twos[index2], oldCol+ones[index1], currentPosition, board);
             }
         }
 
