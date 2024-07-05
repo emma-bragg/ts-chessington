@@ -10,19 +10,19 @@ export default class Pawn extends Piece {
 
     public getAvailableMoves(board: Board) {
         let availableMoves = new Array<Square>();
-        let finalAvailableMoves = new Array<Square>();
         let currentPosition = board.findPiece(this);
         let oldRow = currentPosition.row;
         let oldCol = currentPosition.col;
 
-        if (this.player == 0) {
+        if (this.player == Player.WHITE) {
             this.addAvailableMoveAndContinue(availableMoves, oldRow+1, oldCol, currentPosition, board);
             if (oldRow == 1 && !board.getPiece(new Square(oldRow+1, oldCol))) {
                 this.addAvailableMoveAndContinue(availableMoves, oldRow+2, oldCol, currentPosition, board);
             }
+            availableMoves = availableMoves.filter(pos => !board.getPiece(pos));
         
-            this.pawnCapture(oldRow+1, oldCol-1, finalAvailableMoves, board);
-            this.pawnCapture(oldRow+1, oldCol+1, finalAvailableMoves, board);        
+            this.pawnCapture(oldRow+1, oldCol-1, availableMoves, board);
+            this.pawnCapture(oldRow+1, oldCol+1, availableMoves, board);        
         }
         
         else {
@@ -31,27 +31,21 @@ export default class Pawn extends Piece {
                 this.addAvailableMoveAndContinue(availableMoves, oldRow-2, oldCol, currentPosition, board);
             }
 
-            this.pawnCapture(oldRow-1, oldCol-1, finalAvailableMoves, board);
-            this.pawnCapture(oldRow-1, oldCol+1, finalAvailableMoves, board);
+            availableMoves = availableMoves.filter(pos => !board.getPiece(pos));
+
+            this.pawnCapture(oldRow-1, oldCol-1, availableMoves, board);
+            this.pawnCapture(oldRow-1, oldCol+1, availableMoves, board);
         }
 
-        for (let index = 0; index < availableMoves.length; index++) {
-            let availablePos = availableMoves[index];
-            if(!board.getPiece(availablePos)) {
-                finalAvailableMoves.push(availablePos);
-            }
-            
-        }
-
-        return finalAvailableMoves;
+        return availableMoves;
     }
 
-    public pawnCapture(newRow:number, newCol:number, finalAvailableMoves:Array<Square>, board:Board) {
+    public pawnCapture(newRow:number, newCol:number, availableMoves:Array<Square>, board:Board) {
         let diagonalPos = new Square(newRow, newCol);
         if (diagonalPos.inBoundsCheck()){ 
             let diagonalPiece = board.getPiece(diagonalPos);
             if(diagonalPiece && diagonalPiece.player != this.player && !diagonalPiece.isKing){
-                finalAvailableMoves.push(diagonalPos)
+                availableMoves.push(diagonalPos)
             }
         }  
     }
