@@ -1,13 +1,14 @@
-import Piece from './piece';
+import Piece, { PieceType } from './piece';
 import Player from '../player';
 import Board from '../board';
 import Square from '../square';
-import GameSettings from '../gameSettings';
 
 
 export default class Pawn extends Piece {
+    public movedTwoInitially : boolean = false
+
     public constructor(player: Player) {
-        super(player);
+        super(player, PieceType.PAWN);
     }
 
     public getAvailableMoves(board: Board) {
@@ -17,6 +18,7 @@ export default class Pawn extends Piece {
         let nextSquare1 : Square;
         let nextSquare2 : Square | null = null
         let nextSquareDiags : Array<Square>
+        let enPassantSquares : Array<Square> = [currentSquare.moveBy(0,1), currentSquare.moveBy(0,-1)]
 
         switch (this.player) {
             case Player.WHITE:
@@ -43,10 +45,18 @@ export default class Pawn extends Piece {
         for (let diagMove of nextSquareDiags) {
             if (board.isOnBoard(diagMove)) {
                 let pieceOnBoard = board.getPiece(diagMove)
-                if (pieceOnBoard !== undefined && pieceOnBoard.player != this.player && !pieceOnBoard.isKing) 
+                if (pieceOnBoard !== undefined && pieceOnBoard.player != this.player && pieceOnBoard.pieceType != PieceType.KING) 
                     validMoves.push(diagMove)
             }
         } 
+        for (let enPassantMove of enPassantSquares) {
+            if (board.isOnBoard(enPassantMove)) {
+                let pieceOnBoard = board.getPiece(enPassantMove)
+                if (pieceOnBoard !== undefined && pieceOnBoard.player != this.player && pieceOnBoard.pieceType != PieceType.KING) 
+                    validMoves.push(enPassantMove)
+            }
+        } 
+
         return validMoves;
     }
 }

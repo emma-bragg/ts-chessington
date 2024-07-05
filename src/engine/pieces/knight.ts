@@ -1,10 +1,10 @@
-import Piece from './piece';
+import Piece, {PieceType} from './piece';
 import Player from '../player';
 import Board from '../board';
 
 export default class Knight extends Piece {
     public constructor(player: Player) {
-        super(player);
+        super(player, PieceType.KNIGHT);
     }
 
     public getAvailableMoves(board: Board) {

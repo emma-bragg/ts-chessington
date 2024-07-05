@@ -5,6 +5,8 @@ import Square from '../../../src/engine/square';
 import Rook from '../../../src/engine/pieces/rook';
 import King from '../../../src/engine/pieces/king';
 
+var expect = require('expect.js');
+
 describe('Pawn', () => {
 
     let board: Board;
@@ -83,6 +85,33 @@ describe('Pawn', () => {
 
             moves.should.not.deep.include(Square.at(5, 3));
         });
+
+        it('en passant is a valid move', () => {
+            const capturingPawn = new Pawn(Player.WHITE)
+            const capturedPawn = new Pawn(Player.BLACK)
+            capturedPawn.movedTwoInitially = true
+
+            board.setPiece(Square.at(4, 5), capturingPawn)
+            board.setPiece(Square.at(4, 4), capturedPawn)
+
+            const moves = capturingPawn.getAvailableMoves(board)
+
+            moves.should.deep.include(Square.at(5, 4))
+        })
+
+        it('en passant removes captured pawn from board', ()=> {
+            const capturingPawn = new Pawn(Player.WHITE)
+            const capturedPawn = new Pawn(Player.BLACK)
+            capturedPawn.movedTwoInitially = true
+
+            board.setPiece(Square.at(4, 5), capturingPawn)
+            board.setPiece(Square.at(4, 4), capturedPawn)
+
+            capturingPawn.moveTo(board, Square.at(5, 4))
+
+            let takenPiece = board.getPiece(Square.at(4, 4))
+            expect(takenPiece).to.be(undefined)
+        })
     });
 
     describe('black pawns', () => {
@@ -161,6 +190,33 @@ describe('Pawn', () => {
 
             moves.should.not.deep.include(Square.at(3, 3));
         });
+
+        it('en passant is a valid move', () => {
+            const capturingPawn = new Pawn(Player.BLACK)
+            const capturedPawn = new Pawn(Player.WHITE)
+            capturedPawn.movedTwoInitially = true
+    
+            board.setPiece(Square.at(3, 4), capturingPawn)
+            board.setPiece(Square.at(3, 3), capturedPawn)
+    
+            const moves = capturingPawn.getAvailableMoves(board)
+    
+            moves.should.deep.include(Square.at(2, 3))
+        })
+    
+        it('en passant removes captured pawn from board', ()=> {
+            const capturingPawn = new Pawn(Player.BLACK)
+            const capturedPawn = new Pawn(Player.WHITE)
+            capturedPawn.movedTwoInitially = true
+    
+            board.setPiece(Square.at(3, 4), capturingPawn)
+            board.setPiece(Square.at(3, 3), capturedPawn)
+    
+            capturingPawn.moveTo(board, Square.at(2, 3))
+    
+            let takenPiece = board.getPiece(Square.at(3, 3))
+            expect(takenPiece).to.be(undefined)
+        })
     });
 
     it('cannot move if there is a piece in front', () => {

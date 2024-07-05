@@ -5,6 +5,7 @@ import Piece from './pieces/piece';
 
 export default class Board {
     public currentPlayer: Player;
+    public lastMovedPiece: Piece | null = null
     private readonly board: (Piece | undefined)[][];
 
     public constructor(currentPlayer?: Player) {

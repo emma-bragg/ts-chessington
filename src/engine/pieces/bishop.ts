@@ -1,4 +1,4 @@
-import Piece from './piece';
+import Piece, { PieceType } from './piece';
 import Player from '../player';
 import Board from '../board';
 import GameSettings from '../gameSettings';
@@ -6,7 +6,7 @@ import Square from '../square';
 
 export default class Bishop extends Piece {
     public constructor(player: Player) {
-        super(player);
+        super(player, PieceType.BISHOP);
     }
 
     public getAvailableMoves(board: Board) {
