@@ -29,7 +29,7 @@ export default class Piece {
         board.movePiece(currentSquare, newSquare);
     }
 
-    public quadrantCheck(rowStep : number, colStep : number, availableMoves : Array<Square>, currentPosition : Square, board : Board){
+    public pathCheck(rowStep : number, colStep : number, availableMoves : Array<Square>, currentPosition : Square, board : Board){
         let oldRow = currentPosition.row;
         let oldCol = currentPosition.col;
         for (let step = 0; step < Piece.boardSize; step++) {

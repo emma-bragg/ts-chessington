@@ -12,10 +12,10 @@ export default class Bishop extends Piece {
         let availableMoves = new Array<Square>();
         let currentPosition = board.findPiece(this);
         
-        this.quadrantCheck(-1,-1,availableMoves,currentPosition,board);
-        this.quadrantCheck(-1,1,availableMoves,currentPosition,board);
-        this.quadrantCheck(1,-1,availableMoves,currentPosition,board);
-        this.quadrantCheck(1,1,availableMoves,currentPosition,board);
+        this.pathCheck(-1,-1,availableMoves,currentPosition,board);
+        this.pathCheck(-1,1,availableMoves,currentPosition,board);
+        this.pathCheck(1,-1,availableMoves,currentPosition,board);
+        this.pathCheck(1,1,availableMoves,currentPosition,board);
         
         return availableMoves;
     }
