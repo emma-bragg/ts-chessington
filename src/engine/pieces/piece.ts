@@ -23,7 +23,7 @@ export default class Piece {
         const newPosInBound = newPos.inBoundsCheck();
         if(!currentPosition.equals(newPos) && newPosInBound){
             let pieceAtNewPos = board.getPiece(newPos);
-            if(pieceAtNewPos == undefined || (pieceAtNewPos.player != this.player && !pieceAtNewPos.isKing)){
+            if(this.checkIfCanMove(pieceAtNewPos)){
                 availableMoves.push(newPos);
             }
             return pieceAtNewPos == undefined;
@@ -48,5 +48,9 @@ export default class Piece {
             }
         }
 
+    }
+
+    public checkIfCanMove(pieceAtNewPos:Piece|undefined){
+        return pieceAtNewPos == undefined || (pieceAtNewPos.player != this.player && !pieceAtNewPos.isKing);
     }
 }
