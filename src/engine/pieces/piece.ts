@@ -19,8 +19,8 @@ export default class Piece {
     }
 
     public addAvailableMoveAndContinue(availableMoves: Array<Square>, newRow : number, newCol : number, currentPosition : Square, board : Board){
-        let newPos = new Square(newRow, newCol);
-        let newPosInBound = newPos.inBoundsCheck();
+        const newPos = new Square(newRow, newCol);
+        const newPosInBound = newPos.inBoundsCheck();
         if(!currentPosition.equals(newPos) && newPosInBound){
             let pieceAtNewPos = board.getPiece(newPos);
             if(pieceAtNewPos == undefined || (pieceAtNewPos.player != this.player && !pieceAtNewPos.isKing)){
@@ -37,11 +37,11 @@ export default class Piece {
     }
 
     public pathCheck(rowStep : number, colStep : number, availableMoves : Array<Square>, currentPosition : Square, board : Board){
-        let oldRow = currentPosition.row;
-        let oldCol = currentPosition.col;
+        const oldRow = currentPosition.row;
+        const oldCol = currentPosition.col;
         for (let step = 0; step < Piece.boardSize; step++) {
-            let newRow = oldRow + step * rowStep;
-            let newCol = oldCol + step * colStep;
+            const newRow = oldRow + step * rowStep;
+            const newCol = oldCol + step * colStep;
 
             if(!this.addAvailableMoveAndContinue(availableMoves, newRow, newCol, currentPosition, board)){
                 break;

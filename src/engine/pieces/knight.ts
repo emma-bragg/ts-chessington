@@ -10,12 +10,12 @@ export default class Knight extends Piece {
 
     public getAvailableMoves(board: Board) {
         let availableMoves = new Array<Square>();
-        let currentPosition = board.findPiece(this);
-        let oldRow = currentPosition.row;
-        let oldCol = currentPosition.col;
+        const currentPosition = board.findPiece(this);
+        const oldRow = currentPosition.row;
+        const oldCol = currentPosition.col;
 
-        let shortSteps = [-1, 1]
-        let longSteps = [-2, 2]
+        const shortSteps = [-1, 1]
+        const longSteps = [-2, 2]
         for (let index1 = 0; index1 < shortSteps.length; index1++) {
             for (let index2 = 0; index2 < longSteps.length; index2++) {
                 this.addAvailableMoveAndContinue(availableMoves, oldRow+shortSteps[index1], oldCol+longSteps[index2], currentPosition, board);

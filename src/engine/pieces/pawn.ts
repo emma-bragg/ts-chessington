@@ -10,9 +10,9 @@ export default class Pawn extends Piece {
 
     public getAvailableMoves(board: Board) {
         let availableMoves = new Array<Square>();
-        let currentPosition = board.findPiece(this);
-        let oldRow = currentPosition.row;
-        let oldCol = currentPosition.col;
+        const currentPosition = board.findPiece(this);
+        const oldRow = currentPosition.row;
+        const oldCol = currentPosition.col;
 
         if (this.player == Player.WHITE) {
             this.addAvailableMoveAndContinue(availableMoves, oldRow+1, oldCol, currentPosition, board);
@@ -40,7 +40,7 @@ export default class Pawn extends Piece {
     }
 
     public pawnCapture(newRow:number, newCol:number, availableMoves:Array<Square>, board:Board) {
-        let diagonalPos = new Square(newRow, newCol);
+        const diagonalPos = new Square(newRow, newCol);
         if (diagonalPos.inBoundsCheck()){ 
             let diagonalPiece = board.getPiece(diagonalPos);
             if(diagonalPiece && diagonalPiece.player != this.player && !diagonalPiece.isKing){

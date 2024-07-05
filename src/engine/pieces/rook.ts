@@ -10,8 +10,8 @@ export default class Rook extends Piece {
 
     public getAvailableMoves(board: Board) {
         let availableMoves = new Array<Square>();
-        let currentPosition = board.findPiece(this);
-        let steps = Piece.straightSteps;
+        const currentPosition = board.findPiece(this);
+        const steps = Piece.straightSteps;
 
         for (let index = 0; index < steps.length; index++) {
             this.pathCheck(steps[index][0], steps[index][1], availableMoves, currentPosition, board);
