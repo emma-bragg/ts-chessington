@@ -15,9 +15,9 @@ export default class Pawn extends Piece {
         const oldCol = currentPosition.col;
 
         if (this.player == Player.WHITE) {
-            this.addAvailableMoveAndContinue(availableMoves, oldRow+1, oldCol, currentPosition, board);
+            this.addAvailableMoveAndCheckContinue(availableMoves, oldRow+1, oldCol, currentPosition, board);
             if (oldRow == 1 && !board.getPiece(new Square(oldRow+1, oldCol))) {
-                this.addAvailableMoveAndContinue(availableMoves, oldRow+2, oldCol, currentPosition, board);
+                this.addAvailableMoveAndCheckContinue(availableMoves, oldRow+2, oldCol, currentPosition, board);
             }
             availableMoves = availableMoves.filter(pos => !board.getPiece(pos));
         
@@ -26,9 +26,9 @@ export default class Pawn extends Piece {
         }
         
         else {
-            this.addAvailableMoveAndContinue(availableMoves, oldRow-1, oldCol, currentPosition, board);
+            this.addAvailableMoveAndCheckContinue(availableMoves, oldRow-1, oldCol, currentPosition, board);
             if (oldRow == Piece.boardSize-2 && !board.getPiece(new Square(oldRow-1, oldCol))) {
-                this.addAvailableMoveAndContinue(availableMoves, oldRow-2, oldCol, currentPosition, board);
+                this.addAvailableMoveAndCheckContinue(availableMoves, oldRow-2, oldCol, currentPosition, board);
             }
             availableMoves = availableMoves.filter(pos => !board.getPiece(pos));
 

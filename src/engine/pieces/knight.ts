@@ -18,8 +18,8 @@ export default class Knight extends Piece {
         const longSteps = [-2, 2]
         for (let index1 = 0; index1 < shortSteps.length; index1++) {
             for (let index2 = 0; index2 < longSteps.length; index2++) {
-                this.addAvailableMoveAndContinue(availableMoves, oldRow+shortSteps[index1], oldCol+longSteps[index2], currentPosition, board);
-                this.addAvailableMoveAndContinue(availableMoves, oldRow+longSteps[index2], oldCol+shortSteps[index1], currentPosition, board);
+                this.addAvailableMoveAndCheckContinue(availableMoves, oldRow+shortSteps[index1], oldCol+longSteps[index2], currentPosition, board);
+                this.addAvailableMoveAndCheckContinue(availableMoves, oldRow+longSteps[index2], oldCol+shortSteps[index1], currentPosition, board);
             }
         }
 

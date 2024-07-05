@@ -18,7 +18,7 @@ export default class Piece {
         throw new Error('This method must be implemented, and return a list of available moves');
     }
 
-    public addAvailableMoveAndContinue(availableMoves: Array<Square>, newRow : number, newCol : number, currentPosition : Square, board : Board){
+    public addAvailableMoveAndCheckContinue(availableMoves: Array<Square>, newRow : number, newCol : number, currentPosition : Square, board : Board){
         const newPos = new Square(newRow, newCol);
         const newPosInBound = newPos.inBoundsCheck();
         if(!currentPosition.equals(newPos) && newPosInBound){
@@ -43,7 +43,7 @@ export default class Piece {
             const newRow = oldRow + step * rowStep;
             const newCol = oldCol + step * colStep;
 
-            if(!this.addAvailableMoveAndContinue(availableMoves, newRow, newCol, currentPosition, board)){
+            if(!this.addAvailableMoveAndCheckContinue(availableMoves, newRow, newCol, currentPosition, board)){
                 break;
             }
         }
