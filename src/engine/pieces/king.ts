@@ -1,4 +1,4 @@
-import Piece, {PieceType} from './piece';
+import Piece, {MoveDiagnostic, PieceType} from './piece';
 import Player from '../player';
 import Board from '../board';
 
@@ -19,7 +19,7 @@ export default class King extends Piece {
                     continue;
                 }
                 let nextSquare = currentSquare.moveBy(rowChange, colChange)
-                if (board.isOnBoard(nextSquare) && this.isValidMove(board, nextSquare)['isValid'])
+                if (board.isOnBoard(nextSquare) && this.isValidMove(board, nextSquare) != MoveDiagnostic.UNCAPTURABLE_PIECE_PRESENT)
                     validMoves.push(nextSquare)
             }
         }
