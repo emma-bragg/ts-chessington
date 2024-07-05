@@ -1,6 +1,7 @@
 import Piece from './piece';
 import Player from '../player';
 import Board from '../board';
+import { getMovesFromVectors } from '../helper';
 
 export default class King extends Piece {
     public constructor(player: Player) {
@@ -8,6 +9,18 @@ export default class King extends Piece {
     }
 
     public getAvailableMoves(board: Board) {
-        return new Array(0);
+        const currentPosition = board.findPiece(this);
+        const diffMovelist = [
+            [0,1],
+            [0,-1],
+            [1,1],
+            [1,-1],
+            [-1,1],
+            [-1,-1],
+            [-1,0],
+            [1,0]
+        ];
+        const moveList = getMovesFromVectors(currentPosition, diffMovelist);
+        return moveList; 
     }
 }

@@ -7,8 +7,8 @@ export default class Board {
     public currentPlayer: Player;
     private readonly board: (Piece | undefined)[][];
 
-    public constructor() {
-        this.currentPlayer = Player.WHITE;
+    public constructor(currentPlayer?: Player) {
+        this.currentPlayer = currentPlayer ? currentPlayer : Player.WHITE;
         this.board = this.createBoard();
     }
 
@@ -39,6 +39,16 @@ export default class Board {
             this.currentPlayer = (this.currentPlayer === Player.WHITE ? Player.BLACK : Player.WHITE);
         }
     }
+
+    public isPieceAtSquare(square: Square) {
+        let pieceAtSquare : Piece | undefined;
+        pieceAtSquare = this.getPiece(square);
+        if (pieceAtSquare === undefined) {
+            return false;
+        } 
+        return true;
+    }
+
 
     private createBoard() {
         const board = new Array(GameSettings.BOARD_SIZE);
