@@ -3,6 +3,8 @@ import Board from '../../../src/engine/board';
 import Player from '../../../src/engine/player';
 import Square from '../../../src/engine/square';
 import Pawn from '../../../src/engine/pieces/pawn';
+import Rook from '../../../src/engine/pieces/rook';
+import Queen from '../../../src/engine/pieces/queen';
 
 describe('King', () => {
     let board: Board;
@@ -74,4 +76,76 @@ describe('King', () => {
 
         moves.should.not.deep.include(Square.at(5, 5));
     });
+
+    it('left castling is an available move when no pieces between and king and rook have not moved', () => {
+        const king = new King(Player.WHITE);
+        const rook = new Rook(Player.WHITE);
+        board.setPiece(Square.at(0, 4), king);
+        board.setPiece(Square.at(0, 0), rook);
+
+        const moves = king.getAvailableMoves(board);
+
+        moves.should.deep.include(Square.at(0,2));
+    })
+
+    it('left castling is an unavailable move when pieces between and king and rook have not moved', () => {
+        const king = new King(Player.WHITE);
+        const rook = new Rook(Player.WHITE);
+        board.setPiece(Square.at(0, 4), king);
+        board.setPiece(Square.at(0, 0), rook);
+        const queen = new Queen(Player.WHITE);
+        board.setPiece(Square.at(0, 3), queen);
+
+        const moves = king.getAvailableMoves(board);
+
+        moves.should.not.deep.include(Square.at(0,2));
+    })
+
+    it('right castling is an available move when no pieces between and king and rook have not moved', () => {
+        const king = new King(Player.WHITE);
+        const rook = new Rook(Player.WHITE);
+        board.setPiece(Square.at(0, 4), king);
+        board.setPiece(Square.at(0, 7), rook);
+
+        const moves = king.getAvailableMoves(board);
+
+        moves.should.deep.include(Square.at(0,6));
+    })
+
+    it('right castling is an unavailable move when pieces between and king and rook have not moved', () => {
+        const king = new King(Player.WHITE);
+        const rook = new Rook(Player.WHITE);
+        board.setPiece(Square.at(0, 4), king);
+        board.setPiece(Square.at(0, 7), rook);
+        const queen = new Queen(Player.WHITE);
+        board.setPiece(Square.at(0, 5), queen);
+
+        const moves = king.getAvailableMoves(board);
+
+        moves.should.not.deep.include(Square.at(0,2));
+    })
+
+    it('left castling is successful', () => {
+        const king = new King(Player.WHITE);
+        const rook = new Rook(Player.WHITE);
+        board.setPiece(Square.at(0, 4), king);
+        board.setPiece(Square.at(0, 0), rook);
+
+        king.moveTo(board, Square.at(0, 2));
+
+        board.findPiece(rook).should.deep.equal(Square.at(0, 3));
+        board.findPiece(king).should.deep.equal(Square.at(0, 2))
+    })
+
+    it('right castling is successful', () => {
+        const king = new King(Player.WHITE);
+        const rook = new Rook(Player.WHITE);
+        board.setPiece(Square.at(0, 4), king);
+        board.setPiece(Square.at(0, 7), rook);
+
+        king.moveTo(board, Square.at(0, 6));
+
+        board.findPiece(rook).should.deep.equal(Square.at(0, 5));
+        board.findPiece(king).should.deep.equal(Square.at(0, 6));
+    })
 });

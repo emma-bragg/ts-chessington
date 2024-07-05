@@ -1,6 +1,7 @@
 import Piece, { MoveDiagnostic, PieceType } from './piece';
 import Player from '../player';
 import Board from '../board';
+import Square from '../square';
 
 export enum PawnMove {
     ADVANCE_1,
@@ -58,13 +59,28 @@ export default class Pawn extends Piece {
                     (pieceOnBoard as Pawn).lastMove == PawnMove.ADVANCE_2 && 
                     board.lastMovedPiece == pieceOnBoard
                 ) {
-                    console.log(currentSquare)
-                    console.log(enPassantMove)
                     validMoves.push(enPassantMove.moveBy(rowDirection, 0))
                 }
             }
-        } 
-
+        }
         return validMoves;
+    }
+
+    public moveTo(board: Board, newSquare: Square) {
+        const currentSquare = board.findPiece(this);
+        let relativeChangeInPosition = {"rowChange": Math.abs(currentSquare.row - newSquare.row), "colChange": Math.abs(currentSquare.col - newSquare.col)};
+        
+        if (relativeChangeInPosition.colChange == 0) {
+            this.lastMove = relativeChangeInPosition.rowChange == 1 ? PawnMove.ADVANCE_1 : PawnMove.ADVANCE_2;
+        }
+        else {
+            if (board.getPiece(newSquare) === undefined) {
+                this.lastMove = PawnMove.EN_PASSANT;
+                board.setPiece(Square.at(currentSquare.row, newSquare.col), undefined);
+            } else {
+                this.lastMove = PawnMove.TAKE_DIAGONALLY;
+            }
+        }
+        super.moveTo(board, newSquare);
     }
 }

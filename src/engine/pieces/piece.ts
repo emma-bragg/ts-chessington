@@ -21,6 +21,7 @@ export enum MoveDiagnostic {
 export default class Piece {
     public player: Player;
     public pieceType: PieceType;
+    public active: boolean = false;
 
     public constructor(player: Player, pieceType: PieceType) {
         this.player = player;
@@ -34,6 +35,7 @@ export default class Piece {
     public moveTo(board: Board, newSquare: Square) {
         const currentSquare = board.findPiece(this);
         board.movePiece(currentSquare, newSquare);
+        this.active = true;
     }
 
     public isValidMove(board: Board, nextSquare: Square) {
