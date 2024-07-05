@@ -20,7 +20,6 @@ export default class Square {
         return `Row ${this.row}, Col ${this.col}`;
     }
 
-    
     public inBoundsCheck() {
         return this.row >= 0 && this.row < GameSettings.BOARD_SIZE && this.col >= 0 && this.col < GameSettings.BOARD_SIZE;
     }
