@@ -30,7 +30,6 @@ export default class Pawn extends Piece {
             if (oldRow == Piece.boardSize-2 && !board.getPiece(new Square(oldRow-1, oldCol))) {
                 this.addAvailableMoveAndContinue(availableMoves, oldRow-2, oldCol, currentPosition, board);
             }
-
             availableMoves = availableMoves.filter(pos => !board.getPiece(pos));
 
             this.pawnCapture(oldRow-1, oldCol-1, availableMoves, board);

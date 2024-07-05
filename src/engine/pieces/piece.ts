@@ -2,7 +2,6 @@ import Player from '../player';
 import Board from '../board';
 import Square from '../square';
 import GameSettings from '../gameSettings';
-import King from './king';
 
 export default class Piece {
     public player: Player;
