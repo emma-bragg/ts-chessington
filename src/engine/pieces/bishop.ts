@@ -11,11 +11,11 @@ export default class Bishop extends Piece {
     public getAvailableMoves(board: Board) {
         let availableMoves = new Array<Square>();
         let currentPosition = board.findPiece(this);
-        
-        this.pathCheck(-1,-1,availableMoves,currentPosition,board);
-        this.pathCheck(-1,1,availableMoves,currentPosition,board);
-        this.pathCheck(1,-1,availableMoves,currentPosition,board);
-        this.pathCheck(1,1,availableMoves,currentPosition,board);
+        let steps = Piece.diagonalSteps;
+
+        for (let index = 0; index < steps.length; index++) {
+            this.pathCheck(steps[index][0], steps[index][1], availableMoves, currentPosition, board);
+        }
         
         return availableMoves;
     }

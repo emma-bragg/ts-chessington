@@ -8,6 +8,8 @@ export default class Piece {
     public player: Player;
     public static boardSize: number = GameSettings.BOARD_SIZE;
     public isKing: Boolean = false;
+    public static diagonalSteps: Array<Array<number>> = [[-1, -1], [-1, 1], [1, -1], [1, 1]];
+    public static straightSteps: Array<Array<number>> = [[0, -1], [0, 1], [-1, 0], [1, 0]];
 
     public constructor(player: Player) {
         this.player = player;
