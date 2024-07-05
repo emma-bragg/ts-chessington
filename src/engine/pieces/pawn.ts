@@ -10,7 +10,7 @@ export default class Pawn extends Piece {
 
     public getAvailableMoves(board: Board) {
         let availableMoves = new Array<Square>();
-        let finalAvailableMoves = [];
+        let finalAvailableMoves = new Array<Square>();
         let currentPosition = board.findPiece(this);
         let oldRow = currentPosition.row;
         let oldCol = currentPosition.col;
@@ -20,6 +20,9 @@ export default class Pawn extends Piece {
             if (oldRow == 1 && !board.getPiece(new Square(oldRow+1, oldCol))) {
                 this.addAvailableMoveAndContinue(availableMoves, oldRow+2, oldCol, currentPosition, board);
             }
+        
+            this.pawnCapture(oldRow+1, oldCol-1, finalAvailableMoves, board);
+            this.pawnCapture(oldRow+1, oldCol+1, finalAvailableMoves, board);        
         }
         
         else {
@@ -27,6 +30,9 @@ export default class Pawn extends Piece {
             if (oldRow == Piece.boardSize-2 && !board.getPiece(new Square(oldRow-1, oldCol))) {
                 this.addAvailableMoveAndContinue(availableMoves, oldRow-2, oldCol, currentPosition, board);
             }
+
+            this.pawnCapture(oldRow-1, oldCol-1, finalAvailableMoves, board);
+            this.pawnCapture(oldRow-1, oldCol+1, finalAvailableMoves, board);
         }
 
         for (let index = 0; index < availableMoves.length; index++) {
@@ -38,5 +44,15 @@ export default class Pawn extends Piece {
         }
 
         return finalAvailableMoves;
+    }
+
+    public pawnCapture(newRow:number, newCol:number, finalAvailableMoves:Array<Square>, board:Board) {
+        let diagonalPos = new Square(newRow, newCol);
+        if (diagonalPos.inBoundsCheck()){ 
+            let diagonalPiece = board.getPiece(diagonalPos);
+            if(diagonalPiece && diagonalPiece.player != this.player && !diagonalPiece.isKing){
+                finalAvailableMoves.push(diagonalPos)
+            }
+        }  
     }
 }
