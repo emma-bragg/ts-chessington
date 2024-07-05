@@ -11,8 +11,8 @@ export default class Queen extends Piece {
     public getAvailableMoves(board: Board) {
         const currentPosition = board.findPiece(this);
         const lateralMoves = getLateralMoves(board, currentPosition);
-        const diagonalMoves = getDiagonalMoves(currentPosition);
-        
+        const diagonalMoves = getDiagonalMoves(board, currentPosition);
+
         return lateralMoves.concat(diagonalMoves);
     }
 }
