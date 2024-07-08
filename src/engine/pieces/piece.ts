@@ -1,4 +1,4 @@
-import Player from '../player';
+import Player, { getOppositePlayer } from '../player';
 import Board from '../board';
 import Square, { SquareState } from '../square';
 import PositionChange from '../positionChange';

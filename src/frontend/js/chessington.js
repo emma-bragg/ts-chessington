@@ -1,6 +1,6 @@
 import Board from '../../engine/board';
 import GameSettings from '../../engine/gameSettings';
-import Player from '../../engine/player';
+import Player, { getOppositePlayer } from '../../engine/player';
 import Square from '../../engine/square';
 import Pawn from '../../engine/pieces/pawn';
 import Rook from '../../engine/pieces/rook';
@@ -8,6 +8,7 @@ import Knight from '../../engine/pieces/knight';
 import Bishop from '../../engine/pieces/bishop';
 import Queen from '../../engine/pieces/queen';
 import King from '../../engine/pieces/king';
+import Piece, { PieceType } from '../../engine/pieces/piece';
 
 let boardUI;
 let board;
@@ -70,6 +71,39 @@ function onDrop(source, target) {
     }
     pieceToMove.moveTo(board, toSquare);
     updateStatus();
+}
+
+function getPieceByUserInput(pieceToMove) {
+    let promotionPieceInput = window.prompt("You can promote your pawn!\nPlease enter what you would like to promote the pawn to: ", "Queen");
+    let promotionPieceArray = promotionPieceInput.split(" ");
+
+    let validAnswer = false;
+    while (!validAnswer) {
+        validAnswer = true;
+
+        let piecePlayer = promotionPieceArray[0] == "Opponent" ? getOppositePlayer(pieceToMove.player) : pieceToMove.player;
+        switch (promotionPieceArray[promotionPieceArray.length - 1]) {
+            case "Queen":
+                return Queen(piecePlayer);
+
+            case "Knight":
+                return Knight(piecePlayer);
+
+            case "Rook":
+                return Rook(piecePlayer);
+
+            case "Bishop":
+                return Bishop(piecePlayer);
+
+            case "Pawn":
+                return Pawn(piecePlayer);
+
+            default:
+                validAnswer = false;
+        }
+        promotionPieceInput = window.prompt("That was not a valid piece.\nPlease enter what you would like to promote the pawn to: ", "Queen");
+        promotionPieceArray = promotionPieceInput.split(" ");
+    }
 }
 
 function onSnapEnd() {

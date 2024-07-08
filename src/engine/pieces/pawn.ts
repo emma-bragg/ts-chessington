@@ -2,6 +2,8 @@ import Piece, { PieceType } from './piece';
 import Player from '../player';
 import Board from '../board';
 import Square, { SquareState } from '../square';
+import { getPieceByUserInput } from '../helper';
+import GameSettings from '../gameSettings';
 
 export enum PawnMove {
     ADVANCE_1,
@@ -82,5 +84,9 @@ export default class Pawn extends Piece {
             }
         }
         super.moveTo(board, newSquare);
+        if (newSquare.row == 0 || newSquare.row == GameSettings.BOARD_SIZE - 1) {
+            let newPiece = getPieceByUserInput(this);
+            board.setPiece(newSquare, newPiece);
+        }
     }
 }

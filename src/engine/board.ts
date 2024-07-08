@@ -1,4 +1,4 @@
-import Player from './player';
+import Player, { getOppositePlayer } from './player';
 import GameSettings from './gameSettings';
 import Square from './square';
 import Piece from './pieces/piece';
@@ -37,7 +37,7 @@ export default class Board {
         if (!!movingPiece && movingPiece.player === this.currentPlayer) {
             this.setPiece(toSquare, movingPiece);
             this.setPiece(fromSquare, undefined);
-            this.currentPlayer = (this.currentPlayer === Player.WHITE ? Player.BLACK: Player.WHITE);
+            this.currentPlayer = getOppositePlayer(this.currentPlayer);
             this.lastMovedPiece = movingPiece;
         }
     }
