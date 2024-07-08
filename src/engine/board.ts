@@ -1,14 +1,15 @@
-import Player from './player';
+import Player, { getOppositePlayer } from './player';
 import GameSettings from './gameSettings';
 import Square from './square';
 import Piece from './pieces/piece';
 
 export default class Board {
     public currentPlayer: Player;
+    public lastMovedPiece: Piece | null = null
     private readonly board: (Piece | undefined)[][];
 
-    public constructor() {
-        this.currentPlayer = Player.WHITE;
+    public constructor(currentPlayer?: Player) {
+        this.currentPlayer = currentPlayer || Player.WHITE;
         this.board = this.createBoard();
     }
 
@@ -36,7 +37,8 @@ export default class Board {
         if (!!movingPiece && movingPiece.player === this.currentPlayer) {
             this.setPiece(toSquare, movingPiece);
             this.setPiece(fromSquare, undefined);
-            this.currentPlayer = (this.currentPlayer === Player.WHITE ? Player.BLACK : Player.WHITE);
+            this.currentPlayer = getOppositePlayer(this.currentPlayer);
+            this.lastMovedPiece = movingPiece;
         }
     }
 
@@ -46,5 +48,9 @@ export default class Board {
             board[i] = new Array(GameSettings.BOARD_SIZE);
         }
         return board;
+    }
+
+    public isOnBoard(square: Square): boolean {
+        return (square.row < GameSettings.BOARD_SIZE && square.row >= 0 && square.col < GameSettings.BOARD_SIZE && square.col >= 0)
     }
 }

@@ -1,3 +1,9 @@
+export enum SquareState {
+    EMPTY_SQUARE,
+    CAPTURABLE_PIECE_PRESENT,
+    UNCAPTURABLE_PIECE_PRESENT
+}
+
 export default class Square {
     public row: number;
     public col: number;
@@ -17,5 +23,9 @@ export default class Square {
 
     public toString() {
         return `Row ${this.row}, Col ${this.col}`;
+    }
+
+    public moveBy(rowChange: number, colChange: number) {
+        return new Square(this.row + rowChange, this.col + colChange)
     }
 }
